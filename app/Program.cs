@@ -10,7 +10,6 @@ int outputLength = 64; // Length of the output in bytes
 
 // Allocate memory for output
 byte[] outputArray = new byte[outputLength];
-Span<byte> output = new Span<byte>(outputArray);
 
 
 Native.Pbkdf2(passwordBytes,
