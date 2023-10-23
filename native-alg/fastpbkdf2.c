@@ -17,7 +17,7 @@
 #include <assert.h>
 #include <string.h>
 #if defined(__GNUC__)
-#include <endian.h>
+#include <machine/endian.h>
 #endif
 
 #include <openssl/sha.h>
