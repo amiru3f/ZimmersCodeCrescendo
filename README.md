@@ -1,14 +1,21 @@
 # ZimmersCodeCrescendo
 Zimmer's Code Crescendo
 
-### Introduction
+### Brief
 
 This project aims to enhance the performance of the Password-Based Key Derivation Function (Pbkdf2) in the .NET runtime environment. We achieve this by employing a combination of OpenSSL(1) hash functions and a refined algorithm that minimizes memory and CPU usage. In this README, I provide a comprehensive guide on how to optimize the performance of Pbkdf2 and present the benchmark results to showcase the improvements achieved.
 
-### Problem
-Consider having an IdentityServer which supports `client credentials` to verify the clients. Either in `authorization-code` or the other OAuth flows (Which in our case, it's not that important)
+### Introduction
 
-Verifing the client `password` is a `cpu intensive` task. So if in case of the high throughput there must be a way to have a high perfomant endpoint.
+In our IdentityServer setup, we facilitate client authorization using the `client credentials`, allowing clients to request authorization for various OAuth grant types. One essential aspect of this authorization process is the verification of the client's secret. However, we encountered a challenge in this regard - the client secret verification is a highly CPU-intensive task.
+
+Under a recent performance test, we observed a significant impact on our endpoints' response times due to the resource-intensive nature of client secret verification. The test was conducted in an environment consisting of two AWS Fargate instances, each with limited computational resources—0.5 CPU and 2GB of memory.
+
+The test simulated a high load of 120 transactions per second (approximately 8000 per minute). In this high-throughput scenario, the CPU-intensive nature of client secret verification became evident, resulting in performance bottlenecks and increased response times.
+
+Notably, the secret hashing algorithm used for verification is Pbkdf2, which, while secure, adds to the computational workload and contributes to the observed performance challenges.
+
+As a result, we embarked on a journey to address these performance issues and optimize the client credential verification process in our IdentityServer setup. This repository aims to document the steps we took, the optimizations implemented, and the results achieved in our pursuit of a high-performing solution for client credential verification. I intend to share my findings and improvements with the broader developer community to help others facing similar challenges.
 
 Results till now:
 
