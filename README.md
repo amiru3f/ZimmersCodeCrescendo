@@ -11,7 +11,7 @@ In our IdentityServer setup, we facilitate client authorization using the `clien
 
 Under a recent performance test, we observed a significant impact on our endpoints' response times due to the resource-intensive nature of client secret verification. The test was conducted in an environment consisting of two AWS Fargate instances, each with limited computational resources—0.5 CPU and 2GB of memory.
 
-The test simulated a high load of 120 transactions per second (approximately 8000 per minute). In this high-throughput scenario, the CPU-intensive nature of client secret verification became evident, resulting in performance bottlenecks and increased response times.
+The test simulated a load of 120 transactions per second (approximately 8000 per minute). In this high-throughput scenario, the CPU-intensive nature of client secret verification became evident, resulting in performance bottlenecks and increased response times.
 
 Notably, the secret hashing algorithm used for verification is Pbkdf2, which, while secure, adds to the computational workload and contributes to the observed performance challenges.
 
