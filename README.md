@@ -11,12 +11,19 @@ In our IdentityServer setup, we facilitate client authorization using the `clien
 
 Under a recent performance test, we observed a significant impact on our endpoints' response times due to the resource-intensive nature of client secret verification. The test was conducted in an environment consisting of two AWS Fargate instances, each with limited computational resources—0.5 CPU and 2GB of memory.
 
-The test simulated a load of 120 transactions per second (approximately 8000 per minute). In this high-throughput scenario, the CPU-intensive nature of client secret verification became evident, resulting in performance bottlenecks and increased response times.
+The test simulated a load of 70 transactions per second (approximately 8000 per minute). In this high-throughput scenario, the CPU-intensive nature of client secret verification became evident, resulting in performance bottlenecks and increased response times.
 
 Notably, the secret hashing algorithm used for verification is Pbkdf2, which, while secure, adds to the computational workload and contributes to the observed performance challenges.
 
 As a result, we embarked on a journey to address these performance issues and optimize the client credential verification process in our IdentityServer setup. This repository aims to document the steps we took, the optimizations implemented, and the results achieved in our pursuit of a high-performing solution for client credential verification. I intend to share my findings and improvements with the broader developer community to help others facing similar challenges.
 
+### Detection
+The setup with 2 fargate tasks with 0.5 CPU and 2Gb ram went well with 65 requests, resulted 300 ms response time.
+Increasing the load by 5 resulted in a terrible response time near 4.5 seconds. 
+by digging via the profiler I found 100% cpu usage and a kind of thread contention.
+
+The image bellow demonstrates the most expensive path which led us doughting the the starvation but actually it was not the case.
+The IO thread pool were well configured and no sync over async detected in the app, however the cpu were stuck on heavy hasing function having no room to take care of the continuation tasks.
 Results till now:
 
 ```
