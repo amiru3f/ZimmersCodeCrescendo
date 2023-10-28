@@ -18,7 +18,7 @@ Notably, the secret hashing algorithm used for verification is Pbkdf2, which, wh
 As a result, we embarked on a journey to address these performance issues and optimize the client credential verification process in our IdentityServer setup. This repository aims to document the steps we took, the optimizations implemented, and the results achieved in our pursuit of a high-performing solution for client credential verification. I intend to share my findings and improvements with the broader developer community to help others facing similar challenges.
 
 ### Detection
-The setup with 2 fargate tasks with 0.5 CPU and 2Gb RAM went well with 65 requests, resulting in a 300 ms response time.
+The setup with 2 fargate tasks with 0.5 CPU and 2Gb RAM went well with 65 TPS, resulting in a 300 ms response time.
 Increasing the load by 5 resulted in a terrible response time near 4.5 seconds. 
 by digging via the profiler I found 100% CPU usage and a kind of thread contention.
 
