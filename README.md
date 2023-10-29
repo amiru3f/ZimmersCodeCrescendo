@@ -23,6 +23,9 @@ Increasing the load by 5 resulted in a terrible response time near 4.5 seconds.
 by digging via the profiler I found 100% CPU usage and a kind of thread contention.
 
 The image below demonstrates the most expensive path which led us to doubt starvation but actually, it was not the case.
+
+<img width="1343" alt="Screenshot 2023-10-29 at 22 22 30" src="https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/a23458fc-2f8c-41bf-a128-d0ea249c8661">
+
 The IO thread pool was well configured and no sync over async was detected in the app, however, the CPU was stuck on a heavy hashing function having no room to take care of the continuation tasks.
 Results till now:
 
