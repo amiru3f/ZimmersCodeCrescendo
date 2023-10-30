@@ -10,7 +10,7 @@ This project aims to enhance the performance of the Password-Based Key Derivatio
 
 In our IdentityServer setup, we facilitate client authorization using the `client credentials`, allowing clients to request authorization for various OAuth grant types. One essential aspect of this authorization process is the verification of the client's secret. However, we encountered a challenge in this regard - the client secret verification is a highly CPU-intensive task.
 
-Under a recent performance test, we observed a significant impact on our endpoints' response times due to the resource-intensive nature of client secret verification. The test was conducted in an environment consisting of two AWS Fargate instances, each with limited computational resources 0.5 CPU and 2GB of memory.
+Under a recent performance test, we observed a significant impact on our endpoints' response times due to the resource-intensive nature of client secret verification. The test was conducted in an environment consisting of two AWS Fargate instances, each with limited computational resources 0.5 CPU, and 2GB of memory.
 
 The test simulated a load of 140 transactions per second (approximately 8000 per minute). In this high-throughput scenario, the CPU-intensive nature of client secret verification became evident, resulting in performance bottlenecks and increased response times.
 
@@ -30,15 +30,19 @@ The image below demonstrates the most expensive path which led us to doubt starv
 
 The IO thread pool was well configured and no sync over async was detected in the app however, the CPU was stuck on a heavy hashing function having no room to take care of the continuation tasks.
 
-Additionally, By checking the span and traces we could find out cost of each step down to the response:
+Additionally, By checking the span and traces we could find out the cost of each step down to the response:
 
 <img width="1343" alt="Profiling Result" src="https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/a23458fc-2f8c-41bf-a128-d0ea249c8661">
 
 ## Verify
 
-With kind of an easy verify step we could make sure that problem was related to CPU usage. We just removed `.Hash()` with `await Task.Delay(COST_OF_HASH_FUNCTION_IN_MILLISECONDS)` and reran the test
+With kind of an easy verification step, we could make sure that the problem was related to CPU usage. We just removed `.Hash()` with `await Task.Delay(COST_OF_HASH_FUNCTION_IN_MILLISECONDS)` and reran the test
 
 The result shows that the Api were resulting wonderfully super fast with 2X capacity. (Toleration of 120 TPS)
+
+## Results after optimization with new hashing alg
+
+![After Optimization Traces](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/fbfcecd0-c6a6-4458-b658-e72aa85e01b7)
 
 Results till now:
 
