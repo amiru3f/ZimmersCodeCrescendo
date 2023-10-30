@@ -1,7 +1,6 @@
 using System.Security.Cryptography;
 using System.Text;
-using app;
-
+using App;
 
 byte[] passwordBytes = Encoding.UTF8.GetBytes("admin");
 byte[] saltBytes = Encoding.UTF8.GetBytes("your_salt");
@@ -12,7 +11,7 @@ int outputLength = 64; // Length of the output in bytes
 byte[] outputArray = new byte[outputLength];
 
 
-Native.Pbkdf2(passwordBytes,
+NativeCall.Pbkdf2(passwordBytes,
         (IntPtr)passwordBytes.Length,
         saltBytes,
         (IntPtr)saltBytes.Length,

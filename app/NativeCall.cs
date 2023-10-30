@@ -1,8 +1,8 @@
 using System.Runtime.InteropServices;
 
-namespace app;
+namespace App;
 
-public class Native
+public class NativeCall
 {
     [DllImport("pbkdf2.so", EntryPoint = "fastpbkdf2_hmac_sha512")]
     public static extern void Pbkdf2(
