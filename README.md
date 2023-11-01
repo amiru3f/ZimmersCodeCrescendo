@@ -40,6 +40,10 @@ With kind of an easy verification step, we could make sure that the problem was 
 
 The result shows that the Api were resulting wonderfully super fast with 2X capacity. (Toleration of 120 TPS)
 
+## Steps
+### I started from Tests
+
+
 ## Results after optimization with new hashing alg
 
 ![After Optimization Traces](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/fbfcecd0-c6a6-4458-b658-e72aa85e01b7)
