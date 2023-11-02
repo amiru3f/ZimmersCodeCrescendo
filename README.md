@@ -41,7 +41,10 @@ With kind of an easy verification step, we could make sure that the problem was 
 The result shows that the Api were resulting wonderfully super fast with 2X capacity. (Toleration of 120 TPS)
 
 ## Steps
-### I started from Tests
+### I started with Unit Tests
+In any case, it's mandatory to start from the test which ensures that refactoring the logic for any reason, could be performance, clean-up, etc, nothing would break. 
+The test should be something like this:
+Having `verifyPasswordV1`, If I'm changing the code, for each specific test case (input password), the result of the `verifyPasswordV*` function must be identical. For example: the result of verifyPasswordV1 must be exactly like verifyPasswordV2 and verifyPasswordV3
 
 
 ## Results after optimization with new hashing alg
