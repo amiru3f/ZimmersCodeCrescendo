@@ -42,13 +42,22 @@ The result shows that the Api were resulting wonderfully super fast with 2X capa
 
 ## Steps
 
-### I started with Unit Tests
+### Bunch of tests
 
 In any case, that's mandatory to start from a test which ensures that refactoring the logic for any reason, could be performance, clean-up, re-design, nothing would break.
 The test should be like:
 Having `verifyPasswordV1`, If changing the code, for each specific test case (input password) the `verifyPasswordV*` function result must be identical. For example: the result of verifyPasswordV1 must be exactly like verifyPasswordV2 and verifyPasswordV3
 
-For details check: [Tests](app.tests/HashingFunctionTests.cs)
+For implementation details, visit: [Tests](app.tests/HashingFunctionTests.cs)
+
+### `AspnetCore` best practices
+At first insight it was clear to me that checking .Net runtime related issues would help. So a bunch of searching led me to a closed issue '<https://github.com/dotnet/runtime/issues/24897>' which had a good effect on hashing benchmark. Actually it improves the legacy .Net implementation of `Rfc2898DeriveBytes` performance near 3/4 times.
+
+* How it works? Just by replacing `new Rfc2898DeriveBytes()` with a statically called method `Rfc2898DeriveBytes.Pbkdf2DeriveBytes()`
+
+
+
+
 
 ## Results after optimization with new hashing alg
 
