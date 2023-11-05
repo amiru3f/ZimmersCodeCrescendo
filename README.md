@@ -10,7 +10,7 @@ This project aims to enhance the performance of the Password-Based Key Derivatio
 
 In our IdentityServer setup, we facilitate client authorization using the `client credentials`, allowing clients to request authorization for various OAuth grant types. One essential aspect of this authorization process is the verification of the client's secret. However, we encountered a challenge in this regard - the client secret verification is a highly CPU-intensive task.
 
-Under a recent performance test, we observed a significant impact on our endpoints' response times due to the resource-intensive nature of client secret verification. The test was conducted in an environment consisting of two AWS Fargate instances, each with limited computational resources 0.5 CPU, and 2GB of memory.
+Under a recent performance test, we observed a significant impact on our endpoints' response times due to the resource-intensive nature of client secret verification. The test was conducted in an environment consisting of two AWS `Fargate` instances, each with limited computational resources 0.5 CPU, and 2GB of memory.
 
 The test simulated a load of 140 transactions per second (approximately 8000 per minute). In this high-throughput scenario, the CPU-intensive nature of client secret verification became evident, resulting in performance bottlenecks and increased response times.
 
@@ -51,13 +51,18 @@ Having `verifyPasswordV1`, If changing the code, for each specific test case (in
 For implementation details, visit: [Tests](app.tests/HashingFunctionTests.cs)
 
 ### `AspnetCore` best practices
-At first insight it was clear to me that checking .Net runtime related issues would help. So a bunch of searching led me to a closed issue '<https://github.com/dotnet/runtime/issues/24897>' which had a good effect on hashing benchmark. Actually it improves the legacy .Net implementation of `Rfc2898DeriveBytes` performance near 3/4 times.
+
+At first insight it was clear to me that checking .Net runtime related issues would help. So a bunch of searching led me to a closed issue '<https://github.com/dotnet/runtime/issues/24897>' which had a good effect on hashing benchmark. Actually it improves the legacy .Net implementation of `Rfc2898DeriveBytes` performance near 2/2.5 times.
 
 * How it works? Just by replacing `new Rfc2898DeriveBytes()` with a statically called method `Rfc2898DeriveBytes.Pbkdf2DeriveBytes()`
 
+| Method           | Count | Mean     | Error    | StdDev   | Allocated |
+|----------------- |------ |---------:|---------:|---------:|----------:|
+| NewDotnetHash    | 1000  |  5.006 s | 0.0170 s | 0.0142 s |  91.89 KB |
+| LegacyDotNetHash | 1000  | 11.595 s | 0.0660 s | 0.0617 s | 540.25 KB |
 
-
-
+NOTE: you can run Benchmarks on your machine by navigating to ./app and running:
+``` sudo dotnet run --configuration Release ```
 
 ## Results after optimization with new hashing alg
 
