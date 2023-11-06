@@ -4,9 +4,9 @@ ifdef WITH_OPENMP
   LDFLAGS += -fopenmp
 endif
 
-CFLAGS += -std=c99 -O3 -g -Wall -Werror -Wextra -pedantic -fPIC -I/opt/homebrew/Cellar/openssl@3/3.1.3/include -Wno-error=deprecated-declarations
+CFLAGS += -std=c99 -O3 -g -Wall -Werror -Wextra -pedantic -fPIC -I/opt/homebrew/Cellar/openssl@3/3.1.2/include -Wno-error=deprecated-declarations
 # CFLAGS += -std=c99 -O3 -g -Wall -Werror -Wextra -pedantic -fPIC -I/usr/include/openssl -Wno-error=deprecated-declarations
-LDFLAGS+= -L/opt/homebrew/Cellar/openssl@3/3.1.3/lib
+LDFLAGS+= -L/opt/homebrew/Cellar/openssl@3/3.1.2/lib
 # LDFLAGS+= -L/usr/lib/openssl
 LDLIBS += -lssl -lcrypto 
 

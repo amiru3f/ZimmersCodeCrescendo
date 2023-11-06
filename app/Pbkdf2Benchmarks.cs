@@ -39,4 +39,22 @@ public class Pbkdf2Benchmarks
             }
     }
 
+
+    [Benchmark]
+    public void NativeHash()
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            byte[] outputArray = new byte[Constants.OutputLength];
+
+            NativeCall.Pbkdf2(passwordBytes,
+                    (IntPtr)passwordBytes.Length,
+                    saltBytes,
+                    (IntPtr)saltBytes.Length,
+                    (uint)Constants.Iterations,
+                    outputArray,
+                    (IntPtr)Constants.OutputLength);
+        }
+    }
+
 }
