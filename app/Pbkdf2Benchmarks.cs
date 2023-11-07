@@ -56,5 +56,4 @@ public class Pbkdf2Benchmarks
                     (IntPtr)Constants.OutputLength);
         }
     }
-
 }
