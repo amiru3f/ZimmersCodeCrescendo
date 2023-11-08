@@ -64,13 +64,18 @@ At first insight it was clear to me that checking .Net runtime related issues wo
 NOTE: you can run Benchmarks on your machine by navigating to ./app and running:
 ``` sudo dotnet run --configuration Release ```
 
-## Results after optimization with new hashing alg
+## Leveraging OpenSSL to improve the hashing performance in native playground
 
-| Method           | Count | Mean     | Error    | StdDev   | Allocated |
-|----------------- |------ |---------:|---------:|---------:|----------:|
-| NewDotnetHash    | 1000  |  4.996 s | 0.0053 s | 0.0041 s |  86.89 KB |
-| LegacyDotNetHash | 1000  | 11.580 s | 0.0471 s | 0.0441 s | 541.99 KB |
-| NativeHash       | 1000  |  2.513 s | 0.0080 s | 0.0075 s |  86.89 KB |
+After some search on Github I could find some native implementations which have focused on `Aggressive inlining`, `Zero allocation`, `Minimal copies` and parallelism.
+
+So started to port the best one in case of benchmarks into C# leveraging ReadonlySpan and safe Pointers. The benchmark shows super fast results:
+
+| Method            | Count | Mean     | Error    | StdDev   | Allocated |
+|-----------------  |------ |---------:|---------:|---------:|----------:|
+| NewDotnetHash     | 1000  |  4.996 s | 0.0053 s | 0.0041 s |  86.89 KB |
+| LegacyDotNetHash  | 1000  | 11.580 s | 0.0471 s | 0.0441 s | 541.99 KB |
+| NativeCpp         | 1000  |  2.513 s | 0.0080 s | 0.0075 s |  86.89 KB |
+| NativeCppMulThrd  | 1000  |  1.941 s | 0.0075 s | 0.0068 s |  86.89 KB |
 
 ![After Optimization Traces](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/fbfcecd0-c6a6-4458-b658-e72aa85e01b7)
 
