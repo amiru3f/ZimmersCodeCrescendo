@@ -32,7 +32,8 @@ The IO thread pool was well configured and no sync over async was detected in th
 
 Additionally, By checking the span and traces we could find out the cost of each step down to the response:
 
-<img width="1343" alt="Profiling Result" src="https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/a23458fc-2f8c-41bf-a128-d0ea249c8661">
+<img width="1202" alt="Before Optimization" src="https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/62966ace-8364-4e51-9ba4-06d2997acb92">
+
 
 ## Verify
 
@@ -44,7 +45,7 @@ The result shows that the Api were resulting wonderfully super fast with 2X capa
 
 ### Bunch of tests
 
-In any case, that's mandatory to start from a test which ensures that refactoring the logic for any reason, could be performance, clean-up, re-design, nothing would break.
+In any case, that's mandatory to start from a test that ensures that refactoring the logic for any reason, could be performance, clean-up, or re-design, nothing would break.
 The test should be like:
 Having `verifyPasswordV1`, If changing the code, for each specific test case (input password) the `verifyPasswordV*` function result must be identical. For example: the result of verifyPasswordV1 must be exactly like verifyPasswordV2 and verifyPasswordV3
 
