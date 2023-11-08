@@ -10,17 +10,17 @@ This project aims to enhance the performance of the Password-Based Key Derivatio
 
 In our IdentityServer setup, we facilitate client authorization using the `client credentials`, allowing clients to request authorization for various OAuth grant types. One essential aspect of this authorization process is the verification of the client's secret. However, we encountered a challenge in this regard - the client secret verification is a highly CPU-intensive task.
 
-Under a recent performance test, we observed a significant impact on our endpoints' response times due to the resource-intensive nature of client secret verification. The test was conducted in an environment consisting of two AWS `Fargate` instances, each with limited computational resources 0.5 CPU, and 2GB of memory.
+Under a recent performance test, we observed a significant impact on our endpoints' response times due to the resource-intensive nature of client secret verification. The test was conducted in an environment consisting of 4 AWS `Fargate` instances, each with limited computational resources 0.5 CPU, and 2GB of memory.
 
 The test simulated a load of 140 transactions per second (approximately 8000 per minute). In this high-throughput scenario, the CPU-intensive nature of client secret verification became evident, resulting in performance bottlenecks and increased response times.
 
 Notably, the secret hashing algorithm used for verification is `Pbkdf2`, which, while secure, adds to the computational workload and contributes to the observed performance challenges.
 
-As a result, we embarked on a journey to address these performance issues and optimize the client credential verification process in our Auth solution setup. This repository aims to document the steps we took, the optimizations implemented, and the results achieved in our pursuit of a high-performing solution for client credential verification. I intend to share my findings and improvements with the broader developer community to help others facing similar challenges.
+As a result, we embarked on a journey to address these performance issues and optimize the client credential verification process in our authentication solution setup. This repository aims to document the steps we took, the optimizations implemented, and the results achieved in our pursuit of a high-performing solution for client credential verification. I intend to share my findings and improvements with the broader developer community to help others facing similar challenges.
 
 ## Detection
 
-The setup with 2 Fargate tasks with 0.5 CPU and 2Gb RAM went acceptable with 65 TPS, resulting in a 300 ms response time.
+The setup with 4 Fargate tasks with 0.5 CPU and 2Gb RAM went acceptable with 65 TPS, resulting in a 300 ms response time.
 Increasing the load by 5 resulted in a terrible response time near 4.5 seconds.
 By digging via the profiler I found 100% CPU usage and a kind of thread contention.
 
@@ -36,10 +36,14 @@ Additionally, By checking the span and traces we could find out the cost of each
 
 
 ## Verify
+Since I was in doubt of high CPU usage and lack of CPU for continuations, I needed a way to verify my understanding.
+With kind of an easy verification step, I could make sure that the problem was definitely the CPU. I just removed `.Hash()` with `await Task.Delay(COST_OF_HASH_FUNCTION_IN_MILLISECONDS)` and reran the test
 
-With kind of an easy verification step, we could make sure that the problem was related to CPU usage. We just removed `.Hash()` with `await Task.Delay(COST_OF_HASH_FUNCTION_IN_MILLISECONDS)` and reran the test
+The results showed that the Api was resulting wonderfully super fast with 2X capacity with no thread starvation issue. (Toleration of 120 TPS - 7200 TPM)
 
-The result shows that the Api were resulting wonderfully super fast with 2X capacity. (Toleration of 120 TPS)
+So I decided to micro-optimize the hash function to lower the CPU usage just as an interesting duty.
+
+# How I started the optimization
 
 ## Steps
 
@@ -53,9 +57,9 @@ For implementation details, visit: [Tests](app.tests/HashingFunctionTests.cs)
 
 ### `AspnetCore` best practices
 
-At first insight it was clear to me that checking .Net runtime related issues would help. So a bunch of searching led me to a closed issue '<https://github.com/dotnet/runtime/issues/24897>' which had a good effect on hashing benchmark. Actually it improves the legacy .Net implementation of `Rfc2898DeriveBytes` performance near 2/2.5 times.
+At first insight, it was clear to me that checking .Net runtime repo previous issues would help. So a bunch of searching led me to a closed issue '<https://github.com/dotnet/runtime/issues/24897>' which had a good effect on the hashing benchmark. Actually, it improves the legacy .Net implementation of `Rfc2898DeriveBytes` performance nearly 2/2.5 times.
 
-* How it works? Just by replacing `new Rfc2898DeriveBytes()` with a statically called method `Rfc2898DeriveBytes.Pbkdf2DeriveBytes()`
+* How does it work? Just by replacing `new Rfc2898DeriveBytes()` with a statically called method `Rfc2898DeriveBytes.Pbkdf2DeriveBytes()`
 
 | Method           | Count | Mean     | Error    | StdDev   | Allocated |
 |----------------- |------ |---------:|---------:|---------:|----------:|
@@ -64,6 +68,8 @@ At first insight it was clear to me that checking .Net runtime related issues wo
 
 NOTE: you can run Benchmarks on your machine by navigating to ./app and running:
 ``` sudo dotnet run --configuration Release ```
+
+Definitely, you can see the benchmark was much better, but nothing changed in the result, the same CPU usage with even more response time. So I tried another way to reduce the algorithm time and memory complexity.
 
 ## Leveraging OpenSSL to improve the hashing performance in native playground
 
