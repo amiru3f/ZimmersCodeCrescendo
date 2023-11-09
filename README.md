@@ -71,9 +71,9 @@ NOTE: you can run Benchmarks on your machine by navigating to ./app and running:
 
 Definitely, you can see the benchmark was much better, but nothing changed in the result, the same CPU usage with even more response time. So I tried another way to reduce the algorithm time and memory complexity.
 
-## Leveraging OpenSSL to improve the hashing performance in native playground
+## Leveraging OpenSSL to improve the hashing performance in the native playground
 
-After some search on Github I could find some native implementations which have focused on `Aggressive inlining`, `Zero allocation`, `Minimal copies` and parallelism.
+After some search on Github, I could find some native implementations which have focused on `Aggressive inlining`, `Zero allocation`, `Minimal copies` and parallelism.
 
 So started to port the best one in case of benchmarks into C# leveraging ReadonlySpan and safe Pointers. The benchmark shows super fast results:
 
