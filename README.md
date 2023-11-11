@@ -1,14 +1,12 @@
 # ZimmersCodeCrescendo
 
-Zimmer's Code Crescendo
-
 ## Brief
 
-This project aims to enhance the performance of the Password-Based Key Derivation Function (Pbkdf2) in the .NET runtime environment. We achieve this by employing a combination of OpenSSL(1) hash functions and a refined algorithm that minimizes memory and CPU usage. In this README, I provide a comprehensive guide on how to optimize the performance of Pbkdf2 and present the benchmark results to showcase the improvements achieved.
+This project aims to enhance the performance of the Password-Based Key Derivation Function (Pbkdf2) in the .NET runtime environment. We achieve this by employing a combination of OpenSSL(1) hash functions and a refined algorithm that minimizes memory and CPU usage. In this README, I provide a comprehensive guide on problem detection steps as well as how to optimize the performance of Pbkdf2 and present the benchmark results to showcase the improvements achieved.
 
 ## Introduction
 
-In our IdentityServer setup, we facilitate client authorization using the `client credentials`, allowing clients to request authorization for various OAuth grant types. One essential aspect of this authorization process is the verification of the client's secret. However, we encountered a challenge in this regard - the client secret verification is a highly CPU-intensive task.
+In our `Authentication` setup, we facilitate client authentication using the `client credentials`, allowing clients to request auth for various OAuth grant types. One essential aspect of this process is the verification of the client's secret. However, we encountered a challenge in this regard - the client secret verification is a highly CPU-intensive task.
 
 Under a recent performance test, we observed a significant impact on our endpoints' response times due to the resource-intensive nature of client secret verification. The test was conducted in an environment consisting of 4 AWS `Fargate` instances, each with limited computational resources 0.5 CPU, and 2GB of memory.
 
