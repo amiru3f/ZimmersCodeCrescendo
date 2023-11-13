@@ -84,6 +84,8 @@ So started to port the best one in case of benchmarks into C# leveraging Readonl
 
 ## Running load tests against new implementation
 
+After deep benchmarking the native implementation and for sure the green tests, I decided to trigger the pipelines to deploy the changes to ECS. 
+
 ![After Optimization Traces](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/fbfcecd0-c6a6-4458-b658-e72aa85e01b7)
 
 To be continued 🔜
