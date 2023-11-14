@@ -71,7 +71,7 @@ Definitely, you can see the benchmark was much better, but nothing changed in th
 
 ## Leveraging OpenSSL to improve the hashing performance in the native playground
 
-After some search on Github, I could find some native implementations which have focused on `Aggressive inlining`, `Zero allocation`, `Minimal copies` and parallelism.
+After some searching on Github, I could find some native implementations which have focused on `Aggressive inlining`, `Zero allocation`, `Minimal copies`, and `parallelism`.
 
 So started to port the best one in case of benchmarks into C# leveraging ReadonlySpan and safe Pointers. The benchmark shows super fast results:
 
