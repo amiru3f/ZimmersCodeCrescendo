@@ -89,5 +89,5 @@ After deep benchmarking the native implementation and for sure the green tests, 
 
 ![image](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/060cf1dc-111b-48f4-86d1-78f506bdf97a)
 
-
+Also special thanks to @ctz and https://github.com/ctz/fastpbkdf2 for the idea and also the customized implementation of the algorithm
 To be continued 🔜
