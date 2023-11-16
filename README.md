@@ -4,6 +4,8 @@
 
 This project aims to enhance the performance of the Password-Based Key Derivation Function (Pbkdf2) in the .NET runtime environment. We achieve this by employing a combination of OpenSSL(1) hash functions and a refined algorithm that minimizes memory and CPU usage. In this README, I provide a comprehensive guide on problem detection steps as well as how to optimize the performance of Pbkdf2 and present the benchmark results to showcase the improvements achieved.
 
+Special thanks to @ctz and https://github.com/ctz/fastpbkdf2 for the idea and the customized implementation of the algorithm
+
 ## Introduction
 
 In our `Authentication` setup, we facilitate client authentication using the `client credentials`, allowing clients to request auth for various OAuth grant types. One essential aspect of this process is the verification of the client's secret. However, we encountered a challenge in this regard - the client secret verification is a highly CPU-intensive task.
@@ -89,5 +91,4 @@ After deep benchmarking the native implementation and for sure the green tests, 
 
 ![image](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/060cf1dc-111b-48f4-86d1-78f506bdf97a)
 
-Also special thanks to @ctz and https://github.com/ctz/fastpbkdf2 for the idea and also the customized implementation of the algorithm
 To be continued 🔜
