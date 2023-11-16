@@ -24,13 +24,14 @@ By digging via the profiler I found 100% CPU usage and a kind of thread contenti
 
 The image below demonstrates the most expensive path which led us to doubt starvation but actually, it was not the case.
 
-<img width="1343" alt="Profiling Result" src="https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/a23458fc-2f8c-41bf-a128-d0ea249c8661">
+![image](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/8b2cec54-5c9e-4e97-a771-67e0e0020c1a)
+
 
 The IO thread pool was well configured and no sync over async was detected in the app however, the CPU was stuck on a heavy hashing function having no room to take care of the continuation tasks.
 
 Additionally, By checking the span and traces we could find out the cost of each step down to the response:
 
-<img width="1202" alt="Before Optimization" src="https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/62966ace-8364-4e51-9ba4-06d2997acb92">
+![image](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/f0022a41-6dea-481f-b2e4-869584fe2cae)
 
 
 ## Verify
@@ -86,6 +87,7 @@ So started to port the best one in case of benchmarks into C# leveraging Readonl
 
 After deep benchmarking the native implementation and for sure the green tests, I decided to trigger the pipelines to deploy the changes to ECS. 
 
-![After Optimization Traces](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/fbfcecd0-c6a6-4458-b658-e72aa85e01b7)
+![image](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/060cf1dc-111b-48f4-86d1-78f506bdf97a)
+
 
 To be continued 🔜
