@@ -58,7 +58,7 @@ For implementation details, visit: [Tests](app.tests/HashingFunctionTests.cs)
 
 ### `AspnetCore` best practices
 
-At first insight, it was clear to me that checking .Net runtime repo previous issues would help. So a bunch of searching led me to a closed issue '<https://github.com/dotnet/runtime/issues/24897>' which had a good effect on the hashing benchmark. Actually, it improves the legacy .Net implementation of `Rfc2898DeriveBytes` performance nearly 2/2.5 times.
+At first insight, it was clear to me that checking the .NET runtime repo's previous issues would help. So a bunch of searching led me to a closed issue '<https://github.com/dotnet/runtime/issues/24897>' which had a good effect on the hashing benchmark. Actually, it improves the legacy .Net implementation of `Rfc2898DeriveBytes` performance nearly 2/2.5 times.
 
 * How does it work? Just by replacing `new Rfc2898DeriveBytes()` with a statically called method `Rfc2898DeriveBytes.Pbkdf2DeriveBytes()`
 
@@ -90,5 +90,11 @@ So started to port the best one in case of benchmarks into C# leveraging Readonl
 After deep benchmarking the native implementation and for sure the green tests, I decided to trigger the pipelines to deploy the changes to ECS. 
 
 ![image](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/060cf1dc-111b-48f4-86d1-78f506bdf97a)
+
+![image](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/767145d9-0817-4e44-b383-735d3b67523c)
+
+
+![image](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/bec602ef-2d40-4b1a-a5bf-3fa4f5d84d12)
+
 
 To be continued 🔜
