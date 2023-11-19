@@ -21,7 +21,7 @@ As a result, we embarked on a journey to address these performance issues and op
 ## Detection
 
 The setup with 4 Fargate tasks with 0.5 CPU and 2Gb RAM went acceptable with 65 TPS, resulting in a 300 ms response time.
-Increasing the load by 5 resulted in a terrible response time near 4.5 seconds.
+Increasing the load by 5 resulted in a terrible response time near 14 seconds.
 By digging via the profiler I found 100% CPU usage and a kind of thread contention.
 
 The image below demonstrates the most expensive path which led us to doubt starvation but actually, it was not the case.
