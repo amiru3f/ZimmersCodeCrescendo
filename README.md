@@ -94,3 +94,21 @@ So by triggering the unit tests to verify the logic behavior and making them gre
 After deep benchmarking the native implementation and for sure the green tests, I decided to trigger the pipelines to deploy the changes to ECS
 
 ![image](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/060cf1dc-111b-48f4-86d1-78f506bdf97a)
+
+### Final vs early stage results
+
+For nearly 33 TPS (7k requests per minute):
+
+![image](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/bf7727b2-e405-40eb-b40b-a90cc7c064c5)
+
+Before:
+![image](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/30960f4c-db61-4acf-8d50-a8cb4b67cdb1)
+
+After:
+![image](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/0c236715-1187-44c0-b510-b73485eea01c)
+
+
+#### Next steps
+Maybe OpenSSL3 support :)
+
+
