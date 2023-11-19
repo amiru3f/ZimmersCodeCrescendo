@@ -87,6 +87,8 @@ So started to port the best one in case of benchmarks into C# leveraging Readonl
 
 So by triggering the unit tests to verify the logic behavior and making them green, I could test the performance against the near PRD environment.
 
+<img width="807" alt="unit test results" src="https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/531fb520-3d34-4824-9683-b17d5a82319c">
+
 #### Running load tests against new implementation
 
 After deep benchmarking the native implementation and for sure the green tests, I decided to trigger the pipelines to deploy the changes to ECS
