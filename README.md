@@ -78,12 +78,20 @@ After doing some search on Github, I could find some native implementations whic
 
 So started to port the best one in case of benchmarks into C# leveraging ReadonlySpan and safe Pointers. The benchmark shows super fast results! Near 6 times faster.
 
-| Method              | Count | Mean     | Error    | StdDev   | Allocated |
-|-----------------    |------ |---------:|---------:|---------:|----------:|
-| NewDotnetHash       | 1000  |  4.996 s | 0.0053 s | 0.0041 s |  86.89 KB |
-| LegacyDotNetHash    | 1000  | 11.580 s | 0.0471 s | 0.0441 s | 541.99 KB |
-| NativeCpp           | 1000  |  2.513 s | 0.0080 s | 0.0075 s |  86.89 KB |
-| NativeCppMulThread  | 1000  |  1.941 s | 0.0075 s | 0.0068 s |  86.89 KB |
+``` Benchmark
+BenchmarkDotNet v0.13.9+228a464e8be6c580ad9408e98f18813f6407fb5a, macOS Ventura 13.4 (22F66) [Darwin 22.5.0]
+Apple M1 Pro, 1 CPU, 8 logical and 8 physical cores
+.NET SDK 8.0.100-rc.2.23502.2
+  [Host]     : .NET 6.0.16 (6.0.1623.17311), Arm64 RyuJIT AdvSIMD
+  DefaultJob : .NET 6.0.16 (6.0.1623.17311), Arm64 RyuJIT AdvSIMD
+```
+
+| Method                       | Count | Mean     | Error    | StdDev   | Allocated |
+|-----------------------       |------ |---------:|---------:|---------:|----------:|
+| StaticPbkdf2DotnetHash       | 1000  |  4.998 s | 0.0044 s | 0.0042 s |  86.89 KB |
+| LegacyPbkdf2DotNetHash       | 1000  | 11.462 s | 0.0073 s | 0.0069 s | 541.99 KB |
+| OpenSslDrivenHash            | 1000  |  2.506 s | 0.0015 s | 0.0013 s |  91.93 KB |
+| OpenSslDrivenHashMultiThread | 1000  |  2.914 s | 0.0036 s | 0.0029 s |  91.93 KB |
 
 So by triggering the unit tests to verify the logic behavior and making them green, I could test the performance against the near PRD environment.
 

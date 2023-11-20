@@ -19,14 +19,14 @@ public class Pbkdf2Benchmarks
 
 
     [Benchmark]
-    public void NewDotnetHash()
+    public void StaticPbkdf2DotnetHash()
     {
         for (int i = 0; i < Count; i++)
             Rfc2898DeriveBytes.Pbkdf2(passwordBytes, saltBytes, Constants.Iterations, HashAlgorithmName.SHA512, Constants.OutputLength);
     }
 
     [Benchmark]
-    public void LegacyDotNetHash()
+    public void LegacyPbkdf2DotNetHash()
     {
         for (int i = 0; i < Count; i++)
             using (var algorithm = new Rfc2898DeriveBytes(
@@ -41,7 +41,7 @@ public class Pbkdf2Benchmarks
 
 
     [Benchmark]
-    public void NativeHash()
+    public void OpenSslDrivenHash()
     {
         for (int i = 0; i < Count; i++)
         {
