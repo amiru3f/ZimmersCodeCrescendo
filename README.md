@@ -31,7 +31,8 @@ The image below demonstrates the most expensive path which led us to doubt starv
 
 The IO thread pool was well configured and no sync over async was detected in the app however, the CPU was stuck on a heavy hashing function having no room to take care of the continuation tasks.
 
-![image](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/911bb93d-6ba4-4180-b590-8f4db863659d)
+[<img src="https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/911bb93d-6ba4-4180-b590-8f4db863659d" width="250"/>](https://github.com/amiru3f/ZimmersCodeCrescendo/assets/17201404/911bb93d-6ba4-4180-b590-8f4db863659d)
+
 
 
 Additionally, By checking the span and traces we could find out the cost of each step down to the response:
