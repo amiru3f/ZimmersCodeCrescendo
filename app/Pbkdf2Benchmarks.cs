@@ -51,7 +51,7 @@ public class Pbkdf2Benchmarks
                     (IntPtr)passwordBytes.Length,
                     saltBytes,
                     (IntPtr)saltBytes.Length,
-                    (uint)Constants.Iterations,
+                    Constants.Iterations,
                     outputArray,
                     (IntPtr)Constants.OutputLength);
         }
